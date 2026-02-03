@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -523,3 +524,530 @@
   </script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تواصل معنا | المنزل الراقي</title>
+
+  <style>
+    :root{
+      --brand-blue:#058DCB;
+      --brand-green:#7BBB45;
+      --bg:#f4f8fb;
+      --text:#0b1b2a;
+      --muted: rgba(11,27,42,.72);
+      --white:#fff;
+      --radius: 18px;
+      --shadow: 0 18px 55px rgba(0,0,0,.14);
+      --shadow-soft: 0 12px 28px rgba(0,0,0,.10);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 15% 5%, rgba(5,141,203,.06), transparent 35%),
+        radial-gradient(circle at 85% 10%, rgba(123,187,69,.06), transparent 40%),
+        var(--bg);
+      color: var(--text);
+    }
+    a{ text-decoration:none; color: inherit; }
+
+    .wrap{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 22px 18px 30px;
+    }
+
+    .hero{
+      border-radius: 26px;
+      overflow:hidden;
+      position: relative;
+      min-height: 260px;
+      background: linear-gradient(100deg,
+        rgba(123,187,69,.18) 0%,
+        rgba(123,187,69,.18) 58%,
+        rgba(5,141,203,.18) 58%,
+        rgba(5,141,203,.18) 100%);
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,.55), transparent 48%),
+        radial-gradient(circle at 78% 40%, rgba(255,255,255,.45), transparent 55%);
+      opacity: .65;
+      pointer-events:none;
+    }
+
+    .hero-inner{
+      position: relative;
+      z-index: 1;
+      padding: 28px 22px;
+      display:grid;
+      grid-template-columns: 1.25fr .95fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .hero-title{
+      margin:0;
+      font-size: 28px;
+      font-weight: 950;
+      letter-spacing: .2px;
+    }
+    .hero-sub{
+      margin: 8px 0 0;
+      line-height: 1.9;
+      color: rgba(11,27,42,.76);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .crumbs{
+      margin-top: 12px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+      color: rgba(11,27,42,.70);
+      font-weight: 900;
+      font-size: 13px;
+    }
+    .crumbs a{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.70);
+    }
+    .crumbs a:hover{ background: rgba(255,255,255,.86); }
+
+    .side{
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 22px;
+      padding: 16px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .side h3{
+      margin: 0 0 10px;
+      font-size: 16px;
+      font-weight: 950;
+    }
+
+    .info{
+      display:grid;
+      gap: 10px;
+    }
+
+    .info-item{
+      display:flex;
+      align-items:flex-start;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,.06);
+      background: rgba(5,141,203,.06);
+    }
+    .ic{
+      width: 36px;
+      height: 36px;
+      border-radius: 14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: rgba(123,187,69,.18);
+      border: 1px solid rgba(123,187,69,.26);
+      font-weight: 950;
+    }
+    .info-item b{ font-weight: 950; }
+    .info-item small{ color: rgba(11,27,42,.70); font-weight: 800; }
+
+    .grid{
+      margin-top: 16px;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .card{
+      background: rgba(255,255,255,.95);
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 24px;
+      box-shadow: var(--shadow-soft);
+      padding: 18px;
+    }
+
+    .card h2{
+      margin:0 0 12px;
+      font-size: 18px;
+      font-weight: 950;
+    }
+
+    .form{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .field{
+      display:flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field.full{ grid-column: 1 / -1; }
+
+    label{
+      font-weight: 900;
+      font-size: 13px;
+      color: rgba(11,27,42,.80);
+    }
+
+    input, textarea{
+      border: 1px solid rgba(0,0,0,.10);
+      border-radius: 16px;
+      padding: 12px 12px;
+      font-weight: 850;
+      outline: none;
+      background: rgba(255,255,255,.96);
+    }
+
+    textarea{
+      min-height: 140px;
+      resize: vertical;
+      line-height: 1.8;
+    }
+
+    input:focus, textarea:focus{
+      border-color: rgba(5,141,203,.32);
+      box-shadow: 0 0 0 4px rgba(5,141,203,.10);
+    }
+
+    .actions{
+      margin-top: 12px;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+
+    .btn{
+      border: 0;
+      cursor: pointer;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-weight: 950;
+      background: var(--brand-green);
+      color: #0b2a00;
+      box-shadow: var(--shadow-soft);
+      transition: transform .15s ease, opacity .15s ease;
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      white-space: nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn:active{ transform: translateY(0px); opacity: .92; }
+
+    .btn.ghost{
+      background: rgba(5,141,203,.10);
+      border: 1px solid rgba(5,141,203,.18);
+      box-shadow: none;
+      color: var(--text);
+    }
+
+    .note{
+      color: rgba(11,27,42,.70);
+      font-weight: 800;
+      font-size: 13px;
+    }
+
+    .mini{
+      display:grid;
+      gap: 10px;
+    }
+    .mini .box{
+      border-radius: 22px;
+      padding: 16px;
+      border: 1px solid rgba(0,0,0,.08);
+      background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.86));
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.06);
+      border: 1px solid rgba(0,0,0,.08);
+      font-weight: 900;
+      font-size: 12.5px;
+      margin-bottom: 10px;
+    }
+    .tag::before{
+      content:"";
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--brand-blue);
+      outline: 4px solid rgba(5,141,203,.12);
+    }
+
+    /* Toast */
+    .toast{
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 2000;
+      display:none;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: 0 18px 55px rgba(0,0,0,.18);
+      border-radius: 18px;
+      padding: 12px 14px;
+      min-width: 280px;
+      max-width: 360px;
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+    .toast.show{ display:block; animation: pop .18s ease; }
+    @keyframes pop{ from{ transform: translateY(10px); opacity:.0; } to{ transform: translateY(0); opacity:1; } }
+
+    .t-row{ display:flex; align-items:center; justify-content:space-between; gap: 10px; }
+    .t-title{ font-weight: 950; color: var(--text); font-size: 14px; }
+    .t-sub{ font-weight: 850; color: rgba(11,27,42,.72); font-size: 12.5px; margin-top: 4px; line-height: 1.6; }
+    .t-dot{
+      width: 12px; height: 12px;
+      border-radius: 999px;
+      background: var(--brand-green);
+      outline: 4px solid rgba(123,187,69,.18);
+      flex: 0 0 12px;
+    }
+    .t-close{
+      border:0;
+      background: rgba(0,0,0,.06);
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor:pointer;
+      font-weight: 950;
+    }
+
+    @media (max-width: 1000px){
+      .hero-inner{ grid-template-columns: 1fr; }
+      .grid{ grid-template-columns: 1fr; }
+      .form{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="header"></div>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <h1 class="hero-title">تواصل معنا</h1>
+          <p class="hero-sub">
+            يسعدنا استقبال استفساراتكم وطلباتكم — اكتب رسالتك وسنقوم بالرد في أقرب وقت.
+          </p>
+
+          <div class="crumbs">
+            <a href="index.html">🏠 الرئيسية</a>
+            <a href="contact.html">💬 تواصل معنا</a>
+          </div>
+        </div>
+
+        <div class="side">
+          <h3>معلومات التواصل</h3>
+          <div class="info">
+            <div class="info-item">
+              <div class="ic">☎</div>
+              <div>
+                <b>الهاتف</b><br />
+                <small>0000 000 050</small>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="ic">✉</div>
+              <div>
+                <b>البريد</b><br />
+                <small>info@almanzel-araq i.com</small>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="ic">📍</div>
+              <div>
+                <b>الموقع</b><br />
+                <small>الإمارات العربية المتحدة</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>أرسل رسالة</h2>
+
+        <form id="contactForm" class="form" novalidate>
+          <div class="field">
+            <label for="fullName">الاسم الكامل</label>
+            <input id="fullName" name="fullName" type="text" placeholder="مثال: محمد أحمد" required />
+          </div>
+
+          <div class="field">
+            <label for="phone">رقم الجوال</label>
+            <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="05xxxxxxxx" required />
+          </div>
+
+          <div class="field full">
+            <label for="email">البريد الإلكتروني</label>
+            <input id="email" name="email" type="email" placeholder="example@email.com" required />
+          </div>
+
+          <div class="field full">
+            <label for="message">الرسالة</label>
+            <textarea id="message" name="message" placeholder="اكتب رسالتك هنا..." required></textarea>
+          </div>
+
+          <div class="field full">
+            <div class="actions">
+              <button class="btn" type="submit">إرسال الرسالة</button>
+              <a class="btn ghost" href="index.html">العودة للرئيسية</a>
+              <span class="note">سيتم إرسال رسالة تأكيد بعد الإرسال.</span>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="mini">
+        <div class="box">
+          <div class="tag">وقت الرد</div>
+          <div style="font-weight:950;font-size:14px;line-height:1.9;color:rgba(11,27,42,.78)">
+            عادةً نرد خلال <b>24 ساعة</b> في أيام العمل.
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="tag">أسئلة شائعة</div>
+          <div style="display:grid;gap:10px;color:rgba(11,27,42,.75);font-weight:850;line-height:1.8">
+            <div>• هل يوجد شحن داخل الإمارات؟ نعم ✅</div>
+            <div>• هل يمكن الاستبدال؟ حسب سياسة المتجر.</div>
+            <div>• هل توجد عروض؟ تابع قسم أفضل المنتجات.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <div class="t-row">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="t-dot"></span>
+        <div>
+          <div class="t-title" id="toastTitle">تم الإرسال ✅</div>
+          <div class="t-sub" id="toastSub">تم استلام رسالتك وسنتواصل معك قريباً.</div>
+        </div>
+      </div>
+      <button class="t-close" id="toastClose" type="button">إغلاق</button>
+    </div>
+  </div>
+
+  <div id="footer"></div>
+
+  <script>
+    async function loadPart(id, file){
+      const el = document.getElementById(id);
+      const res = await fetch(file, { cache: "no-store" });
+      if(!res.ok){
+        el.innerHTML = "<div style='padding:14px;font-weight:800'>تعذّر تحميل " + file + "</div>";
+        return;
+      }
+      el.innerHTML = await res.text();
+    }
+
+    function isEmailValid(email){
+      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(String(email || "").trim());
+    }
+
+    function isPhoneValid(phone){
+      const p = String(phone || "").replace(/\s+/g,"").trim();
+      return /^[0-9+\-()]{7,18}$/.test(p);
+    }
+
+    // Toast
+    const toast = document.getElementById("toast");
+    const toastTitle = document.getElementById("toastTitle");
+    const toastSub = document.getElementById("toastSub");
+    const toastClose = document.getElementById("toastClose");
+    let toastTimer = null;
+
+    function showToast(title, sub){
+      if(!toast) return;
+      toastTitle.textContent = title || "تم ✅";
+      toastSub.textContent = sub || "";
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=> toast.classList.remove("show"), 2800);
+    }
+    toastClose && toastClose.addEventListener("click", ()=> toast.classList.remove("show"));
+
+    (async function(){
+      await loadPart("header", "header.html");
+      await loadPart("footer", "footer.html");
+
+      const form = document.getElementById("contactForm");
+      form.addEventListener("submit", (e)=>{
+        e.preventDefault();
+
+        const name = document.getElementById("fullName").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const msg = document.getElementById("message").value.trim();
+
+        if(name.length < 2){
+          showToast("تحقق من الاسم", "الرجاء إدخال اسم صحيح.");
+          return;
+        }
+        if(!isPhoneValid(phone)){
+          showToast("تحقق من الجوال", "الرجاء إدخال رقم صحيح.");
+          return;
+        }
+        if(!isEmailValid(email)){
+          showToast("تحقق من البريد", "الرجاء إدخال بريد صحيح.");
+          return;
+        }
+        if(msg.length < 10){
+          showToast("الرسالة قصيرة", "الرجاء كتابة تفاصيل أكثر (10 أحرف على الأقل).");
+          return;
+        }
+
+        // Fake submit (no backend)
+        form.reset();
+        showToast("تم الإرسال ✅", "تم استلام رسالتك وسنرد عليك قريباً.");
+      });
+    })();
+  </script>
+</body>
+</html>
+>>>>>>> d12b6f9 (Initial commit)
