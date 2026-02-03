@@ -1,0 +1,686 @@
+<!-- header.html -->
+<header class="site-header" role="banner">
+  <div class="header-wrap">
+    <!-- Brand -->
+    <div class="brand">
+      <div class="brand-row">
+        <img src="media/Home_Logo.png" alt="Logo" class="brand-logo" />
+        <div class="brand-text">
+          <div class="brand-title">المنزل الراقي</div>
+          <div class="brand-sub">منتجات منزلية مختارة — جودة • أناقة • بساطة</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Toggle (hamburger) -->
+    <button class="menu-toggle" id="btnMenu" type="button" aria-label="فتح القائمة" aria-expanded="false">
+      <span class="bars" aria-hidden="true">
+        <i></i><i></i><i></i>
+      </span>
+    </button>
+
+    <!-- Nav (Desktop) -->
+    <nav class="nav" aria-label="التنقل الرئيسي">
+      <a href="index.html#home">الرئيسية</a>
+      <a href="index.html#categories">الأقسام</a>
+      <a href="index.html#products">المنتجات</a>
+      <a href="contact.html">تواصل معنا</a>
+    </nav>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="btn ghost" id="btnSearch" type="button">بحث</button>
+
+      <button class="btn" id="btnCart" type="button">
+        السلة <span class="badge" id="cartCount">0</span>
+      </button>
+
+      <!-- زر تفريغ السلة -->
+      <button class="btn ghost clear-cart" id="btnClearCart" type="button" hidden>
+        تفريغ السلة
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Drawer -->
+  <div class="mnav" id="mnav" aria-hidden="true">
+    <div class="mnav-inner">
+      <div class="mnav-head">
+        <div class="mnav-brand">
+          <img src="media/Home_Logo.png" alt="Logo" class="mnav-logo" />
+          <div>
+            <div class="mnav-title">المنزل الراقي</div>
+            <div class="mnav-sub">قائمة التنقل</div>
+          </div>
+        </div>
+
+        <button class="mnav-close" id="btnMenuClose" type="button" aria-label="إغلاق القائمة">✕</button>
+      </div>
+
+      <div class="mnav-list" role="list">
+        <a class="mnav-link" role="listitem" href="index.html#home">الرئيسية</a>
+        <a class="mnav-link" role="listitem" href="index.html#categories">الأقسام</a>
+        <a class="mnav-link" role="listitem" href="index.html#products">المنتجات</a>
+        <a class="mnav-link" role="listitem" href="contact.html">تواصل معنا</a>
+      </div>
+
+      <div class="mnav-actions">
+        <button class="btn ghost" id="mBtnSearch" type="button">بحث</button>
+        <button class="btn" id="mBtnCart" type="button">
+          السلة <span class="badge" id="mCartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Drawer -->
+  <div class="search-drawer" id="searchDrawer" aria-hidden="true">
+    <div class="search-inner">
+      <div class="search-box">
+        <span class="s-ic" aria-hidden="true">🔎</span>
+        <input id="searchInput" type="text" autocomplete="off"
+          placeholder="ابحث عن منتج… مثال: شموع، طقم قهوة، سلة" />
+        <button class="s-clear" id="searchClear" type="button" title="مسح">✕</button>
+      </div>
+
+      <button class="btn" id="searchGo" type="button">بحث</button>
+      <button class="btn ghost" id="searchClose" type="button">إغلاق</button>
+    </div>
+
+    <div class="search-meta">
+      <div class="meta-left">
+        <span class="chip" id="searchCount">0 نتيجة</span>
+        <span class="chip hint">Enter للانتقال • Esc للإغلاق • / للبحث</span>
+      </div>
+    </div>
+
+    <div class="suggestions" id="suggestions" role="listbox" aria-label="اقتراحات البحث"></div>
+  </div>
+</header>
+
+<style>
+  :root{
+    --brand-blue:#058DCB;
+    --brand-green:#7BBB45;
+
+    --white:#fff;
+
+    --radius:18px;
+    --shadow: 0 14px 34px rgba(0,0,0,.18);
+    --shadow-soft: 0 10px 24px rgba(0,0,0,.12);
+  }
+
+  *{ box-sizing:border-box; }
+  a{ text-decoration:none; }
+
+  .site-header{
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    color: var(--white);
+    background: linear-gradient(90deg, var(--brand-blue), rgba(5,141,203,.88));
+    box-shadow: var(--shadow);
+    border-bottom: 1px solid rgba(255,255,255,.16);
+  }
+
+  .header-wrap{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 12px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 14px;
+  }
+
+  .brand-row{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+  }
+
+  .brand-logo{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    object-fit:cover;
+    background:#fff;
+    padding:2px;
+    box-shadow: 0 6px 14px rgba(0,0,0,.25);
+    border: 1px solid rgba(255,255,255,.35);
+  }
+
+  .brand-title{
+    font-size: 20px;
+    font-weight: 950;
+    letter-spacing: .2px;
+    line-height: 1.1;
+  }
+
+  .brand-sub{
+    font-size: 12.5px;
+    color: rgba(255,255,255,.86);
+  }
+
+  /* Desktop nav */
+  .nav{
+    display:flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content:center;
+  }
+
+  .nav a{
+    color: rgba(255,255,255,.95);
+    font-weight: 800;
+    padding: 10px 12px;
+    border-radius: 14px;
+    transition: .18s ease;
+    border: 1px solid transparent;
+  }
+
+  .nav a:hover{
+    background: rgba(255,255,255,.14);
+    border-color: rgba(255,255,255,.18);
+  }
+
+  .actions{
+    display:flex;
+    gap: 10px;
+    align-items:center;
+  }
+
+  .btn{
+    border: 0;
+    cursor: pointer;
+    border-radius: 14px;
+    padding: 10px 14px;
+    font-weight: 950;
+    background: var(--brand-green);
+    color: #0b2a00;
+    box-shadow: var(--shadow-soft);
+    transition: transform .15s ease, opacity .15s ease;
+    display:inline-flex;
+    align-items:center;
+    gap: 10px;
+    white-space: nowrap;
+  }
+
+  .btn:hover{ transform: translateY(-1px); }
+  .btn:active{ transform: translateY(0px); opacity: .92; }
+
+  .btn.ghost{
+    background: rgba(255,255,255,.14);
+    border: 1px solid rgba(255,255,255,.22);
+    box-shadow: none;
+    color: #fff;
+  }
+
+  .badge{
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    background: rgba(0,0,0,.18);
+    border: 1px solid rgba(255,255,255,.24);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 950;
+  }
+
+  .search-drawer{
+    display:none;
+    border-top: 1px solid rgba(255,255,255,.18);
+    background: rgba(0,0,0,.10);
+    padding: 12px 18px 16px;
+  }
+  .search-drawer.open{ display:block; }
+
+  .search-inner{
+    max-width: 1200px;
+    margin: 0 auto;
+    display:flex;
+    gap: 10px;
+    align-items:center;
+    flex-wrap: wrap;
+  }
+
+  .search-inner input{
+    flex: 1 1 380px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.22);
+    outline: none;
+    background: rgba(255,255,255,.14);
+    color: #fff;
+    font-weight: 800;
+  }
+
+  .search-inner input::placeholder{
+    color: rgba(255,255,255,.70);
+    font-weight: 800;
+  }
+
+  .btn:focus-visible, .nav a:focus-visible, .search-inner input:focus-visible,
+  .menu-toggle:focus-visible, .mnav-close:focus-visible, .mnav-link:focus-visible{
+    outline: 3px solid rgba(255,255,255,.55);
+    outline-offset: 2px;
+  }
+
+  /* ===== Mobile hamburger (hidden on desktop) ===== */
+  .menu-toggle{
+    display:none;
+    border: 1px solid rgba(255,255,255,.22);
+    background: rgba(255,255,255,.14);
+    color:#fff;
+    border-radius: 14px;
+    padding: 10px 12px;
+    cursor:pointer;
+    box-shadow: none;
+    align-items:center;
+    justify-content:center;
+    gap: 10px;
+    white-space: nowrap;
+  }
+
+  .bars{
+    display:inline-flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .bars i{
+    display:block;
+    width: 22px;
+    height: 2px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.92);
+  }
+
+  /* ===== Mobile drawer ===== */
+  .mnav{
+    display:none;
+    border-top: 1px solid rgba(255,255,255,.18);
+    background: rgba(0,0,0,.14);
+    padding: 14px 18px 18px;
+  }
+  .mnav.open{ display:block; }
+
+  .mnav-inner{
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255,255,255,.10);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 18px;
+    padding: 14px;
+    backdrop-filter: blur(10px);
+  }
+
+  .mnav-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,.16);
+  }
+
+  .mnav-brand{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+  }
+
+  .mnav-logo{
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background:#fff;
+    padding:2px;
+    border: 1px solid rgba(255,255,255,.35);
+    box-shadow: 0 6px 14px rgba(0,0,0,.25);
+    object-fit: cover;
+  }
+
+  .mnav-title{
+    font-weight: 950;
+    font-size: 16px;
+    line-height: 1.1;
+    color: rgba(255,255,255,.95);
+  }
+  .mnav-sub{
+    font-weight: 850;
+    font-size: 12px;
+    color: rgba(255,255,255,.78);
+    margin-top: 3px;
+  }
+
+  .mnav-close{
+    border: 1px solid rgba(255,255,255,.22);
+    background: rgba(0,0,0,.12);
+    color:#fff;
+    border-radius: 14px;
+    padding: 10px 12px;
+    cursor:pointer;
+    font-weight: 950;
+  }
+  .mnav-close:hover{ background: rgba(255,255,255,.12); }
+
+  .mnav-list{
+    display:grid;
+    gap: 8px;
+    padding: 12px 0;
+  }
+
+  .mnav-link{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 12px 12px;
+    border-radius: 16px;
+    font-weight: 900;
+    color: rgba(255,255,255,.95);
+    border: 1px solid rgba(255,255,255,.16);
+    background: rgba(0,0,0,.10);
+  }
+  .mnav-link:hover{
+    background: rgba(255,255,255,.12);
+    border-color: rgba(255,255,255,.22);
+  }
+  .mnav-link::after{
+    content:"›";
+    font-weight: 950;
+    opacity: .9;
+  }
+
+  .mnav-actions{
+    display:flex;
+    gap: 10px;
+    align-items:center;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,.16);
+    flex-wrap: wrap;
+  }
+
+  /* Keep existing styles */
+  .clear-cart{
+    background: rgba(255,80,80,.15);
+    border: 1px solid rgba(255,80,80,.35);
+    color: #fff;
+    font-weight: 950;
+    transition: .15s ease;
+  }
+  .clear-cart:hover{
+    background: rgba(255,80,80,.25);
+    transform: translateY(-1px);
+  }
+
+  .search-box{
+    flex: 1 1 420px;
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.22);
+    background: rgba(255,255,255,.14);
+  }
+
+  .s-ic{
+    width: 30px; height: 30px;
+    border-radius: 12px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    background: rgba(0,0,0,.10);
+    border: 1px solid rgba(255,255,255,.18);
+  }
+
+  .search-box input{
+    flex:1;
+    border:0 !important;
+    outline:none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    color:#fff;
+    font-weight: 850;
+  }
+
+  .s-clear{
+    border:0;
+    cursor:pointer;
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
+    background: rgba(0,0,0,.12);
+    border: 1px solid rgba(255,255,255,.18);
+    color:#fff;
+    font-weight: 950;
+    display:none;
+  }
+  .s-clear.show{ display:inline-flex; align-items:center; justify-content:center; }
+  .s-clear:hover{ background: rgba(255,255,255,.14); }
+
+  .search-meta{
+    max-width: 1200px;
+    margin: 10px auto 0;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    gap: 10px;
+    flex-wrap: wrap;
+    color: rgba(255,255,255,.86);
+  }
+
+  .chip{
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 999px;
+    background: rgba(0,0,0,.14);
+    border: 1px solid rgba(255,255,255,.18);
+    font-weight: 900;
+    font-size: 12.5px;
+  }
+
+  .chip.hint{
+    color: rgba(255,255,255,.82);
+    font-weight: 850;
+  }
+
+  .suggestions{
+    max-width: 1200px;
+    margin: 10px auto 0;
+    display:none;
+    background: rgba(0,0,0,.14);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 16px;
+    overflow:hidden;
+  }
+
+  .suggestions.open{ display:block; }
+
+  .s-item{
+    padding: 10px 12px;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    gap: 10px;
+    cursor:pointer;
+    font-weight: 900;
+    color: rgba(255,255,255,.92);
+    border-top: 1px solid rgba(255,255,255,.12);
+  }
+  .s-item:first-child{ border-top:0; }
+  .s-item:hover{ background: rgba(255,255,255,.12); }
+
+  .s-tag{
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(123,187,69,.18);
+    border: 1px solid rgba(123,187,69,.28);
+    color:#fff;
+    white-space: nowrap;
+  }
+
+  /* ===== Mobile behavior ===== */
+  @media (max-width: 980px){
+    /* Keep your look, just hide desktop nav and show hamburger */
+    .nav{ display:none; }
+    .menu-toggle{ display:inline-flex; }
+
+    /* Keep header as a single line bar */
+    .header-wrap{
+      flex-direction: row;
+      align-items:center;
+    }
+
+    /* Brand smaller on mobile */
+    .brand-title{ font-size: 18px; }
+    .brand-sub{ display:none; } /* optional: keep header clean on mobile */
+
+    /* Actions stay (not touched) */
+    .actions{ gap: 8px; }
+    .btn{ padding: 10px 12px; }
+  }
+</style>
+
+<script>
+  (function(){
+    // ===== Mobile Menu =====
+    const btnMenu = document.getElementById("btnMenu");
+    const mnav = document.getElementById("mnav");
+    const btnMenuClose = document.getElementById("btnMenuClose");
+
+    function openMenu(){
+      if(!mnav || !btnMenu) return;
+      mnav.classList.add("open");
+      mnav.setAttribute("aria-hidden","false");
+      btnMenu.setAttribute("aria-expanded","true");
+    }
+    function closeMenu(){
+      if(!mnav || !btnMenu) return;
+      mnav.classList.remove("open");
+      mnav.setAttribute("aria-hidden","true");
+      btnMenu.setAttribute("aria-expanded","false");
+    }
+
+    btnMenu && btnMenu.addEventListener("click", ()=>{
+      mnav && mnav.classList.contains("open") ? closeMenu() : openMenu();
+    });
+    btnMenuClose && btnMenuClose.addEventListener("click", closeMenu);
+
+    // Close menu on link click
+    mnav && mnav.addEventListener("click", (e)=>{
+      const a = e.target.closest("a");
+      if(a) closeMenu();
+    });
+
+    // Esc closes menu
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape") closeMenu();
+    });
+
+    // Sync mobile search/cart buttons with original ones (no functional change)
+    const btnSearch = document.getElementById("btnSearch");
+    const btnCart = document.getElementById("btnCart");
+    const mBtnSearch = document.getElementById("mBtnSearch");
+    const mBtnCart = document.getElementById("mBtnCart");
+
+    mBtnSearch && btnSearch && mBtnSearch.addEventListener("click", ()=>{
+      closeMenu();
+      btnSearch.click();
+    });
+
+    mBtnCart && btnCart && mBtnCart.addEventListener("click", ()=>{
+      closeMenu();
+      btnCart.click();
+    });
+
+    // Sync cart count badge (mobile mirror)
+    const badge = document.getElementById("cartCount");
+    const mBadge = document.getElementById("mCartCount");
+    if(badge && mBadge){
+      const sync = ()=> mBadge.textContent = badge.textContent || "0";
+      sync();
+      const obs = new MutationObserver(sync);
+      obs.observe(badge, { childList:true, subtree:true, characterData:true });
+    }
+  })();
+
+  (function(){
+    // ===== Existing Search Drawer Logic (kept) =====
+    const drawer = document.getElementById("searchDrawer");
+    const btnSearch = document.getElementById("btnSearch");
+    const btnClose = document.getElementById("searchClose");
+    const searchGo = document.getElementById("searchGo");
+    const input = document.getElementById("searchInput");
+    const clearBtn = document.getElementById("searchClear");
+
+    function openDrawer(){
+      if(!drawer) return;
+      drawer.classList.add("open");
+      drawer.setAttribute("aria-hidden","false");
+      btnSearch && btnSearch.setAttribute("aria-expanded","true");
+      setTimeout(()=> input && input.focus(), 60);
+    }
+    function closeDrawer(){
+      if(!drawer) return;
+      drawer.classList.remove("open");
+      drawer.setAttribute("aria-hidden","true");
+      btnSearch && btnSearch.setAttribute("aria-expanded","false");
+    }
+
+    btnSearch && btnSearch.addEventListener("click", () => {
+      drawer && drawer.classList.contains("open") ? closeDrawer() : openDrawer();
+    });
+    btnClose && btnClose.addEventListener("click", closeDrawer);
+
+    function toggleClear(){
+      if(!clearBtn || !input) return;
+      clearBtn.classList.toggle("show", (input.value || "").trim().length > 0);
+    }
+    input && input.addEventListener("input", toggleClear);
+    clearBtn && clearBtn.addEventListener("click", ()=>{
+      if(!input) return;
+      input.value = "";
+      toggleClear();
+      input.focus();
+    });
+
+    function runSearch(){
+      const q = (input && input.value ? input.value : "").trim().toLowerCase();
+      if(!q){ return; }
+
+      const cards = document.querySelectorAll("[data-title]");
+      let firstMatch = null;
+
+      cards.forEach(card => {
+        const title = (card.getAttribute("data-title") || "").toLowerCase();
+        const match = title.includes(q);
+
+        card.style.outline = match ? "3px solid rgba(123,187,69,.85)" : "none";
+        card.style.boxShadow = match ? "0 18px 44px rgba(0,0,0,.18)" : "";
+
+        if(match && !firstMatch) firstMatch = card;
+      });
+
+      if(firstMatch){
+        closeDrawer();
+        firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
+      }else{
+        alert("لا توجد نتائج مطابقة. جرّب كلمة أخرى.");
+      }
+    }
+
+    searchGo && searchGo.addEventListener("click", runSearch);
+    input && input.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") runSearch();
+      if(e.key === "Escape") closeDrawer();
+    });
+  })();
+</script>
