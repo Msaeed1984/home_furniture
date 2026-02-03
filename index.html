@@ -6,6 +6,7 @@
   <title>المنزل الراقي | منتجات منزلية</title>
 
   <style>
+    /* ======= (نفس CSS الموجود عندك بدون تغيير) ======= */
     :root{
       --brand-blue:#058DCB;
       --brand-green:#7BBB45;
@@ -33,9 +34,6 @@
       font-family: "Segoe UI", Tahoma, Arial, sans-serif;
     }
 
-    /* =========================
-       HERO / BANNER
-       ========================= */
     .hero-bg{
       position: relative;
       min-height: 440px;
@@ -228,9 +226,6 @@
       color: rgba(255,255,255,.95);
     }
 
-    /* =========================
-       PRODUCTS
-       ========================= */
     .container{
       max-width: 1200px;
       margin: 0 auto;
@@ -240,7 +235,7 @@
     .section-title{
       display:flex;
       align-items:center;
-      justify-content:flex-start; /* RTL -> right */
+      justify-content:flex-start;
       gap: 10px;
       margin: 18px 0 12px;
       font-size: 18px;
@@ -389,7 +384,6 @@
     .buy:hover{ transform: translateY(-1px); }
     .buy:active{ transform: translateY(0px); opacity:.92; }
 
-    /* Toast */
     .toast{
       position: fixed;
       bottom: 18px;
@@ -444,7 +438,6 @@
       font-weight: 950;
     }
 
-    /* Responsive */
     @media (max-width: 1100px){
       .hero-content{ grid-template-columns: 1fr; }
       .side-card{ position: relative; top: auto; }
@@ -507,7 +500,7 @@
     <div class="section-title" id="products"><span class="dot"></span> أفضل المنتجات</div>
 
     <section class="grid" id="productGrid">
-
+      <!-- (نفس المنتجات عندك بدون تغيير) -->
       <!-- 1 -->
       <article class="card" data-title="طقم قهوة فاخر" data-cat="ضيافة">
         <div class="badge-top"><span class="b best">الأكثر مبيعاً</span></div>
@@ -687,7 +680,6 @@
           <button class="buy" type="button" data-add>إضافة للسلة</button>
         </div>
       </article>
-
     </section>
   </main>
 
@@ -708,7 +700,9 @@
   <div id="footer"></div>
 
   <script>
-    // Load header/footer
+    // ==========================
+    // Load header/footer (UPDATED)
+    // ==========================
     async function loadPart(id, file){
       const el = document.getElementById(id);
       const res = await fetch(file, { cache: "no-store" });
@@ -716,10 +710,85 @@
         el.innerHTML = "<div style='padding:14px;font-weight:800'>تعذّر تحميل " + file + "</div>";
         return;
       }
+
+      // Insert HTML
       el.innerHTML = await res.text();
+
+      // IMPORTANT:
+      // We intentionally DO NOT run scripts inside header/footer.
+      // We control all header behaviors from this page to prevent duplicates.
+      el.querySelectorAll("script").forEach(s => s.remove());
     }
 
+    // ==========================
+    // Header UI Init (Hamburger + Mobile Buttons)
+    // ==========================
+    function initHeaderUI(){
+      const btnMenu = document.getElementById("btnMenu");
+      const mnav = document.getElementById("mnav");
+      const btnMenuClose = document.getElementById("btnMenuClose");
+
+      const btnSearch = document.getElementById("btnSearch");
+      const btnCart = document.getElementById("btnCart");
+      const mBtnSearch = document.getElementById("mBtnSearch");
+      const mBtnCart = document.getElementById("mBtnCart");
+
+      function openMenu(){
+        if(!mnav || !btnMenu) return;
+        mnav.classList.add("open");
+        mnav.setAttribute("aria-hidden","false");
+        btnMenu.setAttribute("aria-expanded","true");
+      }
+
+      function closeMenu(){
+        if(!mnav || !btnMenu) return;
+        mnav.classList.remove("open");
+        mnav.setAttribute("aria-hidden","true");
+        btnMenu.setAttribute("aria-expanded","false");
+      }
+
+      btnMenu && btnMenu.addEventListener("click", ()=>{
+        mnav && mnav.classList.contains("open") ? closeMenu() : openMenu();
+      });
+
+      btnMenuClose && btnMenuClose.addEventListener("click", closeMenu);
+
+      // Close when clicking a link inside drawer
+      mnav && mnav.addEventListener("click", (e)=>{
+        const a = e.target.closest("a");
+        if(a) closeMenu();
+      });
+
+      // Mobile shortcuts (use same buttons)
+      mBtnSearch && btnSearch && mBtnSearch.addEventListener("click", ()=>{
+        closeMenu();
+        btnSearch.click();
+      });
+
+      mBtnCart && btnCart && mBtnCart.addEventListener("click", ()=>{
+        closeMenu();
+        btnCart.click();
+      });
+
+      // Mirror cart badge to mobile
+      const badge = document.getElementById("cartCount");
+      const mBadge = document.getElementById("mCartCount");
+      if(badge && mBadge){
+        const sync = ()=> mBadge.textContent = badge.textContent || "0";
+        sync();
+        const obs = new MutationObserver(sync);
+        obs.observe(badge, { childList:true, subtree:true, characterData:true });
+      }
+
+      // ESC closes menu
+      document.addEventListener("keydown", (e)=>{
+        if(e.key === "Escape") closeMenu();
+      });
+    }
+
+    // =======================
     // Fallback SVG
+    // =======================
     function fallbackSVG(kind){
       const map = {
         coffee: { label: "Coffee Set", icon: "M210 150h190 M250 150v-30c0-18 14-32 32-32h56c18 0 32 14 32 32v30 M270 150v60c0 18 14 32 32 32h36c18 0 32-14 32-32v-60 M420 155h30c18 0 30 12 30 28s-12 28-30 28h-30 M230 270h220" },
@@ -747,11 +816,15 @@
     }
 
     (async function init(){
+      // Load parts
       await loadPart("header", "header.html");
       await loadPart("footer", "footer.html");
 
+      // ✅ After header is injected, enable hamburger/menu etc.
+      initHeaderUI();
+
       // =======================
-      // Unified Filter + Search (Fix the "problem")
+      // Unified Filter + Search
       // =======================
       let currentFilter = "all";
       let currentQuery  = "";
@@ -807,9 +880,7 @@
         if(counter) counter.textContent = hits + " نتيجة";
       }
 
-      // =======================
-      // Wire Search UI from header.html
-      // =======================
+      // Suggestions
       function buildSuggestions(q){
         const query = (q || "").trim().toLowerCase();
         const box = document.getElementById("suggestions");
@@ -862,6 +933,7 @@
         if(first) first.scrollIntoView({ behavior: "smooth", block: "center" });
       }
 
+      // Wire Search UI (from injected header)
       (function wireSearchUI(){
         const drawer = document.getElementById("searchDrawer");
         const btnSearch = document.getElementById("btnSearch");
@@ -942,9 +1014,7 @@
         applyAll();
       })();
 
-      // =======================
-      // Filter pills (integrated with search)
-      // =======================
+      // Filter pills
       const pills = document.querySelectorAll(".pill");
       pills.forEach(p=>{
         p.addEventListener("click", ()=>{
@@ -955,9 +1025,7 @@
         });
       });
 
-      // =======================
       // Toast
-      // =======================
       const toast = document.getElementById("toast");
       const toastTitle = document.getElementById("toastTitle");
       const toastSub = document.getElementById("toastSub");
@@ -974,9 +1042,7 @@
       }
       toastClose && toastClose.addEventListener("click", ()=> toast.classList.remove("show"));
 
-      // =======================
-      // Cart (same + nice micro interaction)
-      // =======================
+      // Cart
       let count = 0;
 
       function pulseCart(){
@@ -992,7 +1058,7 @@
         const badge = document.getElementById("cartCount");
         const clearBtn = document.getElementById("btnClearCart");
         if(badge) badge.textContent = String(count);
-        if(clearBtn) clearBtn.hidden = count <= 1; // show only if > 1
+        if(clearBtn) clearBtn.hidden = count <= 1;
       }
 
       document.querySelectorAll("[data-add]").forEach(btn=>{
@@ -1014,9 +1080,7 @@
         }
       });
 
-      // =======================
-      // Image load/error fix + fallback
-      // =======================
+      // Image fallback
       document.querySelectorAll(".thumb img").forEach(img=>{
         const thumb = img.closest(".thumb");
 

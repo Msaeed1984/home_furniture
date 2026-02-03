@@ -79,7 +79,7 @@
       <div class="search-box">
         <span class="s-ic" aria-hidden="true">🔎</span>
         <input id="searchInput" type="text" autocomplete="off"
-          placeholder="ابحث عن منتج… مثال: شموع، طقم قهوة، سلة" />
+               placeholder="ابحث عن منتج… مثال: شموع، طقم قهوة، سلة" />
         <button class="s-clear" id="searchClear" type="button" title="مسح">✕</button>
       </div>
 
@@ -102,9 +102,7 @@
   :root{
     --brand-blue:#058DCB;
     --brand-green:#7BBB45;
-
     --white:#fff;
-
     --radius:18px;
     --shadow: 0 14px 34px rgba(0,0,0,.18);
     --shadow-soft: 0 10px 24px rgba(0,0,0,.12);
@@ -162,7 +160,6 @@
     color: rgba(255,255,255,.86);
   }
 
-  /* Desktop nav */
   .nav{
     display:flex;
     gap: 8px;
@@ -269,7 +266,6 @@
     outline-offset: 2px;
   }
 
-  /* ===== Mobile hamburger (hidden on desktop) ===== */
   .menu-toggle{
     display:none;
     border: 1px solid rgba(255,255,255,.22);
@@ -298,7 +294,6 @@
     background: rgba(255,255,255,.92);
   }
 
-  /* ===== Mobile drawer ===== */
   .mnav{
     display:none;
     border-top: 1px solid rgba(255,255,255,.18);
@@ -404,7 +399,6 @@
     flex-wrap: wrap;
   }
 
-  /* Keep existing styles */
   .clear-cart{
     background: rgba(255,80,80,.15);
     border: 1px solid rgba(255,80,80,.35);
@@ -527,160 +521,19 @@
     white-space: nowrap;
   }
 
-  /* ===== Mobile behavior ===== */
   @media (max-width: 980px){
-    /* Keep your look, just hide desktop nav and show hamburger */
     .nav{ display:none; }
     .menu-toggle{ display:inline-flex; }
 
-    /* Keep header as a single line bar */
     .header-wrap{
       flex-direction: row;
       align-items:center;
     }
 
-    /* Brand smaller on mobile */
     .brand-title{ font-size: 18px; }
-    .brand-sub{ display:none; } /* optional: keep header clean on mobile */
+    .brand-sub{ display:none; }
 
-    /* Actions stay (not touched) */
     .actions{ gap: 8px; }
     .btn{ padding: 10px 12px; }
   }
 </style>
-
-<script>
-  (function(){
-    // ===== Mobile Menu =====
-    const btnMenu = document.getElementById("btnMenu");
-    const mnav = document.getElementById("mnav");
-    const btnMenuClose = document.getElementById("btnMenuClose");
-
-    function openMenu(){
-      if(!mnav || !btnMenu) return;
-      mnav.classList.add("open");
-      mnav.setAttribute("aria-hidden","false");
-      btnMenu.setAttribute("aria-expanded","true");
-    }
-    function closeMenu(){
-      if(!mnav || !btnMenu) return;
-      mnav.classList.remove("open");
-      mnav.setAttribute("aria-hidden","true");
-      btnMenu.setAttribute("aria-expanded","false");
-    }
-
-    btnMenu && btnMenu.addEventListener("click", ()=>{
-      mnav && mnav.classList.contains("open") ? closeMenu() : openMenu();
-    });
-    btnMenuClose && btnMenuClose.addEventListener("click", closeMenu);
-
-    // Close menu on link click
-    mnav && mnav.addEventListener("click", (e)=>{
-      const a = e.target.closest("a");
-      if(a) closeMenu();
-    });
-
-    // Esc closes menu
-    document.addEventListener("keydown", (e)=>{
-      if(e.key === "Escape") closeMenu();
-    });
-
-    // Sync mobile search/cart buttons with original ones (no functional change)
-    const btnSearch = document.getElementById("btnSearch");
-    const btnCart = document.getElementById("btnCart");
-    const mBtnSearch = document.getElementById("mBtnSearch");
-    const mBtnCart = document.getElementById("mBtnCart");
-
-    mBtnSearch && btnSearch && mBtnSearch.addEventListener("click", ()=>{
-      closeMenu();
-      btnSearch.click();
-    });
-
-    mBtnCart && btnCart && mBtnCart.addEventListener("click", ()=>{
-      closeMenu();
-      btnCart.click();
-    });
-
-    // Sync cart count badge (mobile mirror)
-    const badge = document.getElementById("cartCount");
-    const mBadge = document.getElementById("mCartCount");
-    if(badge && mBadge){
-      const sync = ()=> mBadge.textContent = badge.textContent || "0";
-      sync();
-      const obs = new MutationObserver(sync);
-      obs.observe(badge, { childList:true, subtree:true, characterData:true });
-    }
-  })();
-
-  (function(){
-    // =====  Existing Search Drawer Logic (kept) =====
-    const drawer = document.getElementById("searchDrawer");
-    const btnSearch = document.getElementById("btnSearch");
-    const btnClose = document.getElementById("searchClose");
-    const searchGo = document.getElementById("searchGo");
-    const input = document.getElementById("searchInput");
-    const clearBtn = document.getElementById("searchClear");
-
-    function openDrawer(){
-      if(!drawer) return;
-      drawer.classList.add("open");
-      drawer.setAttribute("aria-hidden","false");
-      btnSearch && btnSearch.setAttribute("aria-expanded","true");
-      setTimeout(()=> input && input.focus(), 60);
-    }
-    function closeDrawer(){
-      if(!drawer) return;
-      drawer.classList.remove("open");
-      drawer.setAttribute("aria-hidden","true");
-      btnSearch && btnSearch.setAttribute("aria-expanded","false");
-    }
-
-    btnSearch && btnSearch.addEventListener("click", () => {
-      drawer && drawer.classList.contains("open") ? closeDrawer() : openDrawer();
-    });
-    btnClose && btnClose.addEventListener("click", closeDrawer);
-
-    function toggleClear(){
-      if(!clearBtn || !input) return;
-      clearBtn.classList.toggle("show", (input.value || "").trim().length > 0);
-    }
-    input && input.addEventListener("input", toggleClear);
-    clearBtn && clearBtn.addEventListener("click", ()=>{
-      if(!input) return;
-      input.value = "";
-      toggleClear();
-      input.focus();
-    });
-
-    function runSearch(){
-      const q = (input && input.value ? input.value : "").trim().toLowerCase();
-      if(!q){ return; }
-
-      const cards = document.querySelectorAll("[data-title]");
-      let firstMatch = null;
-
-      cards.forEach(card => {
-        const title = (card.getAttribute("data-title") || "").toLowerCase();
-        const match = title.includes(q);
-
-        card.style.outline = match ? "3px solid rgba(123,187,69,.85)" : "none";
-        card.style.boxShadow = match ? "0 18px 44px rgba(0,0,0,.18)" : "";
-
-        if(match && !firstMatch) firstMatch = card;
-      });
-
-      if(firstMatch){
-        closeDrawer();
-        firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
-      }else{
-        alert("لا توجد نتائج مطابقة. جرّب كلمة أخرى.");
-      }
-    }
-
-    searchGo && searchGo.addEventListener("click", runSearch);
-    input && input.addEventListener("keydown", (e) => {
-      if(e.key === "Enter") runSearch();
-      if(e.key === "Escape") closeDrawer();
-    });
-  })();
-</script>

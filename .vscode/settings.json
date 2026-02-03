@@ -1,0 +1,7 @@
+{
+  "cSpell.enabled": true,
+  "cSpell.language": "en",
+  "cSpell.ignoreRegExpList": [
+    "/[\\u0600-\\u06FF]+/g"
+  ]
+}
